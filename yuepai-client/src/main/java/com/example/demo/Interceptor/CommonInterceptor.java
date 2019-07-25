@@ -43,14 +43,18 @@ public class CommonInterceptor implements HandlerInterceptor {
 //        获取用户的权限
 //        这个获取uri的地方要更改得更灵活一些
         String uri = request.getRequestURI();
-        if("/yp/admin".equals(uri.substring(0, uri.indexOf("/",uri.indexOf("/")+5)))){
+        if(!uri.equals("/error")) {
+            if ("/yp/admin".equals(uri.substring(0, uri.indexOf("/", uri.indexOf("/") + 5)))) {
 //            如果是后台接口,用token检验登陆人的权限
-            String token = request.getHeader("token");
-        }else if("/yp/api".equals(uri.substring(0, uri.indexOf("/",uri.indexOf("/")+5)))){
+                String token = request.getHeader("token");
+            } else if ("/yp/api".equals(uri.substring(0, uri.indexOf("/", uri.indexOf("/") + 3)))) {
 //            如果是前端接口,用token检查是否登陆失效
-            String token = request.getHeader("token");
+                String token = request.getHeader("token");
+            }
+            return true;
+        }else{
+            return false;
         }
-        return true;
     }
 
     // 在业务处理器处理请求执行完成后,生成视图之前执行的动作
