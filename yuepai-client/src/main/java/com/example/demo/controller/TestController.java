@@ -22,4 +22,7 @@ public class TestController {
         list = testService.getAll();
         return new R(true,R.CODE_SUCCESS,list,"");
     }
+    public void testMerg(){
+
+    }
 }
