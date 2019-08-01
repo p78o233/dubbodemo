@@ -6,6 +6,4 @@ package com.yuepai.yuepaiserver.service.redis;/*
 public interface RedisTemplateService {
     public <T> boolean set(String key ,T value);
     public Object get(String key);
-    public <T> T stringToBean(String value, Class<T> clazz);
-    public <T> String beanToString(T value);
 }
