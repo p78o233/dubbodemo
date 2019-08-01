@@ -24,7 +24,7 @@ public class DruidConfig {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(
                 new StatViewServlet(), "/druid/*");//表示进行druid监控的配置处理操作
         servletRegistrationBean.addInitParameter("allow", "127.0.0.1");//白名单,用逗号隔开
-        servletRegistrationBean.addInitParameter("deny", "");//黑名单，写法通白名单
+        servletRegistrationBean.addInitParameter("deny", "");//黑名单，写法同白名单
         servletRegistrationBean.addInitParameter("loginUsername", "root");//用户名
         servletRegistrationBean.addInitParameter("loginPassword", "root");//密码
         servletRegistrationBean.addInitParameter("resetEnable", "false");//是否可以重置数据源
