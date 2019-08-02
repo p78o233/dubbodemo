@@ -119,7 +119,12 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 			<version>2.1.6.RELEASE</version>
 		</dependency>
-		<!--redis数据库连接结束-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <!--redis数据库连接结束-->
 	</dependencies>
 
 	<build>

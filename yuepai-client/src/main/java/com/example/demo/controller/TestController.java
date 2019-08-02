@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.callback.R;
 import com.yuepai.yuepaiserver.entity.po.Test;
 import com.yuepai.yuepaiserver.service.redis.RedisTemplateService;
+import com.yuepai.yuepaiserver.service.spi.SpiService;
 import com.yuepai.yuepaiserver.service.test.TestService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +23,11 @@ public class TestController {
     private TestService testService;
     @Reference(version = "1.0.0",check = true)
     private RedisTemplateService rts;
+//    spi测试service
+    @Reference(group = "group1",version = "1.0.0",check = true)
+    private SpiService spiServiceFirst;
+    @Reference(group = "group2",version = "1.0.0",check = true)
+    private SpiService spiServiceSecond;
 //    测试接口
     @GetMapping(value = "/getTest")
     public R getAllTest(){
@@ -37,5 +44,15 @@ public class TestController {
     @GetMapping(value = "/getRedis/{key}")
     public R getRedis(@PathVariable("key")String key){
         return new R (true,R.CODE_SUCCESS,rts.get(key),"");
+    }
+
+//    spi测试接口
+    @GetMapping(value = "/spiFirst")
+    public JSONObject spiFirst(){
+        return spiServiceFirst.testSpi();
+    }
+    @GetMapping(value = "/spiSecond")
+    public JSONObject spiSecond(){
+        return spiServiceSecond.testSpi();
     }
 }
