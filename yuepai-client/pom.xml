@@ -98,12 +98,6 @@
 			<version>3.4.14</version>
 			<type>pom</type>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.101tec/zkclient -->
-		<dependency>
-			<groupId>com.101tec</groupId>
-			<artifactId>zkclient</artifactId>
-			<version>0.10</version>
-		</dependency>
 		<!--dubbo结束-->
 		<!--websocket-->
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket -->
@@ -118,7 +112,20 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.58</version>
 		</dependency>
-
+		<!--阿波罗配置开始-->
+		<!-- https://mvnrepository.com/artifact/com.ctrip.framework.apollo/apollo-client -->
+		<dependency>
+			<groupId>com.ctrip.framework.apollo</groupId>
+			<artifactId>apollo-client</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.ctrip.framework.apollo/apollo-core -->
+		<dependency>
+			<groupId>com.ctrip.framework.apollo</groupId>
+			<artifactId>apollo-core</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+		<!--阿波罗配置结束-->
 	</dependencies>
 
 	<build>
