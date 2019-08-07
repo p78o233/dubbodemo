@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DruidConfig {
-//    打开的网址http://127.0.0.1:8111/druid/login.html
+//    打开的网址http://ip:port/druid/login.html
 //    数据库监控工具配置文件
     @Bean
     public ServletRegistrationBean druidServlet() {// 主要实现web监控的配置处理

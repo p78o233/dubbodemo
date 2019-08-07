@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.utils.ReferenceConfigCache;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.callback.R;
 import com.yuepai.yuepaiserver.entity.po.Test;
@@ -13,10 +14,7 @@ import com.yuepai.yuepaiserver.service.spi.SpiApolloService;
 import com.yuepai.yuepaiserver.service.spi.SpiService;
 import com.yuepai.yuepaiserver.service.test.TestService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -29,9 +27,9 @@ public class TestController {
 //    通过apollo动态的组名传入
     public String groupName;
 //    引用远程服务
-    private ReferenceConfig<SpiApolloService> referenceConfig= null;
+    private static ReferenceConfig<SpiApolloService> referenceConfig= null;
 //    通讯细节
-    private ReferenceConfigCache cache = null;
+    private static ReferenceConfigCache cache = null;
 //    上一次使用的组别名
     public static String initGroupName = "";
 
@@ -147,5 +145,48 @@ public class TestController {
         // 注意：此代理对象内部封装了所有通讯细节，对象较重，请缓存复用
         ReferenceConfigCache cache = ReferenceConfigCache.getCache();
         return cache.get(reference);
+    }
+//    短信模板测试
+    @PostMapping(value = "/testMessage")
+    public void testMessage(@RequestBody JSONObject jsonObject){
+        String str = "你好 {name},订单号{orderNun}";
+//        获取appId
+        String appId =  jsonObject.getString("appId");
+//        获取需要发送短信的list
+        String listStr = jsonObject.getString("list");
+        JSONArray jsonArray = JSONArray.parseArray(listStr);
+
+        ArrayList<String>  words=new ArrayList<String>();
+        int m=0,n=0;
+        int count=0;
+//        获取短信模板中的key
+        for(int i=0;i<str.length();i++){
+            if(str.charAt(i)=='{'){
+                if(count==0){
+                    m=i;
+                }
+                count++;
+            }
+            if(str.charAt(i)=='}'){
+                count--;
+                if(count==0){
+                    n=i;
+//                    words.add(str.substring(m,n+1));
+                    words.add(str.substring(m+1,n));
+                }
+            }
+        }
+//        短信数组填写内容
+        for(int i=0;i<jsonArray.size();i++){
+            String strReplace = str;
+            for(String word : words){
+//                strReplace = strReplace.replace(word,JSONObject.parse(jsonArray.getString);
+            }
+            strReplace = strReplace.replaceAll("[\\{\\}]","");
+
+        }
+
+
+        System.out.println(str);
     }
 }
