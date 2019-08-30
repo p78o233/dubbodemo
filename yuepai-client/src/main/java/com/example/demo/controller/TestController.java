@@ -13,18 +13,21 @@ import com.yuepai.yuepaiserver.service.redis.RedisTemplateService;
 import com.yuepai.yuepaiserver.service.spi.SpiApolloService;
 import com.yuepai.yuepaiserver.service.spi.SpiService;
 import com.yuepai.yuepaiserver.service.test.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/yp/admin")
 public class TestController {
-    @Value("${dubbo.spi.group}")
+//    @Value("${dubbo.spi.group}")
 //    通过apollo动态的组名传入
     public String groupName;
     //    引用远程服务
@@ -33,6 +36,9 @@ public class TestController {
     private static ReferenceConfigCache cache = null;
     //    上一次使用的组别名
     public static String initGroupName = "";
+
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
 
     @Reference(version = "1.0.0", check = true)
     private TestService testService;
@@ -200,5 +206,16 @@ public class TestController {
         for(int i=0;i<messageList.size();i++){
             System.out.println(messageList.get(i));
         }
+    }
+
+    //发送消息方法
+    @GetMapping(value = "/kafkasend")
+    public void send() {
+        JSONObject obj=new JSONObject();
+        obj.put("id",System.currentTimeMillis());
+        obj.put("name","生产者发送消息");
+        obj.put("date",new Date());
+        //这个 topic 在 Java 程序中是不需要提前在 Kafka 中设置的，因为它会在发送的时候自动创建你设置的 topic
+        kafkaTemplate.send("test",obj.toString());
     }
 }

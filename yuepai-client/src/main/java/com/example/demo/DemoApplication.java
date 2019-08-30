@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableWebMvc
 @EnableDubbo
-@EnableApolloConfig
+//@EnableApolloConfig
 public class DemoApplication {
 
 	public static void main(String[] args) {

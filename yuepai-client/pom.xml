@@ -126,6 +126,14 @@
 			<version>1.4.0</version>
 		</dependency>
 		<!--阿波罗配置结束-->
+		<!--kafka配置-->
+		<!-- https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>2.2.8.RELEASE</version>
+		</dependency>
+		<!--kafka配置结束-->
 	</dependencies>
 
 	<build>
