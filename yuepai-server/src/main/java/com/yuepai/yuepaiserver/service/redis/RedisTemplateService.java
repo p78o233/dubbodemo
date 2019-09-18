@@ -4,6 +4,6 @@ package com.yuepai.yuepaiserver.service.redis;/*
  */
 //redis基础操作类
 public interface RedisTemplateService {
-    public <T> boolean set(String key ,T value);
+    public <T> boolean set(String key ,final String value);
     public Object get(String key);
 }

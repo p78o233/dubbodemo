@@ -27,7 +27,7 @@ public class TestServiceImpl  implements TestService{
 
 
     /**
-     *  同时监听两个 topic 的消息了，可同时监听多个topic
+     *  同时监听 topic 的消息了，可同时监听多个topic
      * @param record
      * @throws Exception
      */

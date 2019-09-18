@@ -27,9 +27,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/yp/admin")
 public class TestController {
-//    @Value("${dubbo.spi.group}")
-//    通过apollo动态的组名传入
+    //    通过apollo动态的组名传入
+    @Value("${dubbo.spi.group}")
     public String groupName;
+    @Value("${dubbo.registry.address}")
+    public String dubboAddress;
+    @Value("${regist.address}")
+    public String registAddress;
     //    引用远程服务
     private static ReferenceConfig<SpiApolloService> referenceConfig = null;
     //    通讯细节
@@ -109,7 +113,7 @@ public class TestController {
         application.setName("yuepai-client");
         // 连接注册中心配置
         RegistryConfig registry = new RegistryConfig();
-        registry.setAddress("127.0.0.1:2181");
+        registry.setAddress(registAddress);
         registry.setProtocol("zookeeper");
         // 注意：ReferenceConfig为重对象，内部封装了与注册中心的连接，以及与服务提供方的连接
         // 引用远程服务
@@ -129,35 +133,6 @@ public class TestController {
             cache = ReferenceConfigCache.getCache();
         }
         return cache.get(referenceConfig);
-    }
-
-    private SpiApolloService getInvokeService(String groupName) {
-        // 当前应用配置
-        ApplicationConfig application = new ApplicationConfig();
-        application.setName("test_xzh");
-
-        // 连接注册中心配置
-        RegistryConfig registry = new RegistryConfig();
-        registry.setAddress("zookeeper://127.0.0.1:2181");
-        registry.setProtocol("dubbo");
-        registry.setPort(20880);
-        registry.setTimeout(60000);
-
-        // 注意：ReferenceConfig为重对象，内部封装了与注册中心的连接，以及与服务提供方的连接
-        // 引用远程服务
-        // 此实例很重，封装了与注册中心的连接以及与提供者的连接，请自行缓存，否则可能造成内存和连接泄漏
-        ReferenceConfig<SpiApolloService> reference = new ReferenceConfig<>();
-        reference.setApplication(application);
-        // 多个注册中心可以用setRegistries()
-        reference.setRegistry(registry);
-        reference.setInterface(SpiApolloService.class);
-        reference.setVersion("1.0.0");
-        reference.setGroup(groupName);
-
-        // 和本地bean一样使用xxxService
-        // 注意：此代理对象内部封装了所有通讯细节，对象较重，请缓存复用
-        ReferenceConfigCache cache = ReferenceConfigCache.getCache();
-        return cache.get(reference);
     }
 
     //    短信模板测试
