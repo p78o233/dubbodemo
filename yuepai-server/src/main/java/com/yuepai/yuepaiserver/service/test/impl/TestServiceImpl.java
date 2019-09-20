@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yuepai.yuepaiserver.entity.po.Test;
 import com.yuepai.yuepaiserver.mapper.TestMapper;
 import com.yuepai.yuepaiserver.service.test.TestService;
+import com.yuepai.yuepaiserver.utils.SnowFlakeUtil;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,5 +39,11 @@ public class TestServiceImpl  implements TestService{
             Object message = kafkaMessage.get();
             logger.info("消费者开始消费message：" + message);
         }
+    }
+
+    @Override
+    public long getSnowflakeId(int datacenterId, int workerId) {
+        SnowFlakeUtil snowflake = new SnowFlakeUtil(datacenterId, workerId);
+        return snowflake.nextId();
     }
 }

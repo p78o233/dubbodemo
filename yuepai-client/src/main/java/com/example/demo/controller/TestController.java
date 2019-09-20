@@ -193,4 +193,9 @@ public class TestController {
         //这个 topic 在 Java 程序中是不需要提前在 Kafka 中设置的，因为它会在发送的时候自动创建你设置的 topic
         kafkaTemplate.send("test",obj.toString());
     }
+
+    @GetMapping(value = "/getSnow")
+    public R getSnow(@RequestParam("datacenterId")int datacenterId,@RequestParam("workerId")int workerId){
+        return new R(true,R.CODE_SUCCESS,testService.getSnowflakeId(datacenterId,workerId),"");
+    }
 }
